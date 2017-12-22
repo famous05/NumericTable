@@ -31,6 +31,9 @@
 #include <fstream>
 #include "stdlib.h"
 
+#include <cstring>
+#include <cctype>
+
 typedef std::vector<double>  TableData;
 
 class NumericTable
@@ -123,15 +126,15 @@ class NumericTable
     // Writes to 'sep' seperated format, with option to specify column with.
     // Does not allow writing to space or tab separated file. Use the writeToTSVFile function
     // to write to space/tab separated.
-    void writeToFile(std::string file_name, std::string sep, double col_width = 20);
+    void writeToFile(std::string file_name, std::string sep, int col_width = 20);
 
 
     // Writes to tab or space separated file, with option to set column width
-    void writeToTSVFile(std::string file_name, double col_width = 20);
+    void writeToTSVFile(std::string file_name, int col_width = 20);
 
 
     // Writes to comma separated file, with option to set column width
-    void writeToCSVFile(std::string file_name, double col_width = 20);
+    void writeToCSVFile(std::string file_name, int col_width = 20);
 
 
     // Writes to tecplot (.tec) file format
