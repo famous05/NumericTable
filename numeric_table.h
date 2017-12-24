@@ -30,7 +30,6 @@
 #include <iomanip>
 #include <fstream>
 #include "stdlib.h"
-
 #include <cstring>
 #include <cctype>
 
@@ -45,10 +44,10 @@ class NumericTable
     NumericTable();
 
     // Constructor
-    NumericTable(int numOfColumns);
+    NumericTable(int n_cols);
 
     // Copy constructor
-    NumericTable(const NumericTable& NT);
+    //NumericTable(const NumericTable& NT);
 
 
     // Destructor
@@ -157,7 +156,7 @@ class NumericTable
 
 
     private:
-		TABLEDATA table_data;
+		TableData table_data;
 		int num_rows;
 		int num_cols;
 		bool has_inf;

@@ -18,10 +18,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//C++
-//#include <cstring>
-//#include <cctype>
-
 
 //Developer
 #include "numeric_table.h"
@@ -43,7 +39,7 @@ NumericTable::NumericTable(int n_cols)
 	this->has_inf = false;
 }
 
-
+/*
 NumericTable::NumericTable(const NumericTable& NT)
 {
 	this->num_rows = NT.getNumRows();
@@ -52,7 +48,7 @@ NumericTable::NumericTable(const NumericTable& NT)
 	this->has_nan = false;
 	this->has_inf = false;
 }
-
+*/
 
 NumericTable::~NumericTable()
 {
@@ -434,7 +430,7 @@ void NumericTable::writeToTSVFile(std::string file_name, int col_width)
     my_file.close();
 }
 
-void NumericTable::writeToCSVFile(std::string file_name, double col_width)
+void NumericTable::writeToCSVFile(std::string file_name, int col_width)
 {
 	this->writeToFile(file_name, ",", col_width);
 }
