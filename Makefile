@@ -1,5 +1,6 @@
-#
-# This is the Makefile for the progam cv_to_vtk.
+# THIS IS A TEMPORAY MAKE FILE (NOT USABLE)
+
+# This is the Makefile for the progam 'test_prog'.
 
 # define some Makefile variables for the compiler and compiler flags
 # to use Makefile variables later in the Makefile: $()
@@ -19,7 +20,7 @@ CFLAGS  = -g
 
 
 #perferred progam name 
-PROG_NAME = cv_to_vtk_win_v16.09
+PROG_NAME = test_prog
 
 
 # typing 'make' will invoke the first target entry in the file 
