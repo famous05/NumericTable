@@ -92,8 +92,8 @@ class NumericTable
     void scale(double scale_factor);
 
 
-    // Prints the table to screen
-    void print();
+    // Prints the table to screen, with option to set column width
+    void print(int col_width = 20);
 
 
 	// Clears data from the table
@@ -101,7 +101,7 @@ class NumericTable
 
 
 
-    // *********************** Reader functions ****************************************************
+    // *********************** Reader functions ********************************
 
 	// Reads ANSYS BladeGen profile.curve file format
     void readCurveFile(std::string file_name);
@@ -117,14 +117,14 @@ class NumericTable
     // Reads file separated by 'sep'
     void readFile(std::string file_name, std::string sep);
 
-    // ************************ End of reader functions ********************************************
+    // ************************ End of reader functions ************************
 
 
 
-    // *************************** Writer functions ************************************************
+    // *************************** Writer functions ****************************
     // Writes to 'sep' seperated format, with option to specify column with.
-    // Does not allow writing to space or tab separated file. Use the writeToTSVFile function
-    // to write to space/tab separated.
+    // Does not allow writing to space or tab separated file.
+    // Use the writeToTSVFile function to write to space/tab separated.
     void writeToFile(std::string file_name, std::string sep, int col_width = 20);
 
 
@@ -136,27 +136,28 @@ class NumericTable
     void writeToCSVFile(std::string file_name, int col_width = 20);
 
 
-    // Writes to tecplot (.tec) file format
-    void writeToTecplot(std::string file_name);
-    // *********************************************************************************************
+    // Writes to tecplot (.tec) file format, with option to set column width
+    void writeToTecplot(std::string file_name, int col_width = 20);
+    // *************************************************************************
 
 
 	private:
-    	// Splits inout string into vector of string base on 'split_string'.
-    	// Returns a vector of strings. Cannot split string using space/tab
-		static std::vector<std::string> splitString(std::string string_to_split,
-													std::string split_string);
+	// Splits inout string into vector of string base on 'split_string'.
+	// Returns a vector of strings. Cannot split string using space/tab
+	static std::vector<std::string> splitString(std::string string_to_split,
+												std::string split_string);
 
 
-		// Splits inout string into vector of string base on 'split_string'.
-		// Returns a vector of double. Cannot split string using space/tab
-		static std::vector<double> splitStringReturnDouble(std::string string_to_split,
-													std::string split_string);
+	// Splits inout string into vector of string base on 'split_string'.
+	// Returns a vector of double. Cannot split string using space/tab
+	static std::vector<double> splitStringReturnDouble(std::string string_to_split,
+												std::string split_string);
 
 
 
     private:
-		TableData table_data;
+		TableData* table_data;
+        //auto table_data = std::make_unique<TableData>;
 		int num_rows;
 		int num_cols;
 		bool has_inf;

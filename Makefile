@@ -14,16 +14,15 @@ CC = g++
 
 
 
+CFLAGS  = -g -std=c++14
 #CFLAGS  = -g -Wall
-CFLAGS  = -g
 
 
-
-#perferred progam name 
+#perferred progam name
 PROG_NAME = test_prog
 
 
-# typing 'make' will invoke the first target entry in the file 
+# typing 'make' will invoke the first target entry in the file
 # (in this case the default target entry)
 # you can name this target entry anything, but "default" or "all"
 # are the most commonly used names by convention
@@ -46,14 +45,14 @@ OBJS = $(SRCS:.c=.o)
 
 
 
-# To create the executable file $(PROG_NAME) we need 
+# To create the executable file $(PROG_NAME) we need
 # all the object files.
 $(PROG_NAME):  $(OBJS)
 	$(CC) $(CFLAGS) -o $(PROG_NAME) $(OBJS)
 
 
-clean: 
+clean:
 	$(RM) $(PROG_NAME) *.o *~
-	
+
 depend:$(SRCS)
 	makedepend $(INCLUDES) $^
