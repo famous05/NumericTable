@@ -30,7 +30,6 @@ NumericTable::NumericTable()
 	this->has_nan = false;
 	this->has_inf = false;
 	table_data = new TableData;
-
 }
 
 
@@ -42,45 +41,57 @@ NumericTable::NumericTable(int n_cols)
 	table_data = new TableData;
 }
 
-/*
-NumericTable::NumericTable(const NumericTable& NT)
+
+NumericTable::NumericTable(const NumericTable& nt)
 {
-	this->num_rows = NT.getNumRows();
-	this->num_cols = NT.getNumCols();
-	this->table_data = NT.table_data;
-	this->has_nan = false;
-	this->has_inf = false;
-	//table_data = new TableData;
+	this->num_rows = nt.getNumRows();
+	this->num_cols = nt.getNumCols();
+	this->table_data = nt.table_data;
+	this->has_nan = nt.hasNaN();
+	this->has_inf = nt.hasInf();
 }
-*/
+
+
+NumericTable& NumericTable::operator =(const NumericTable& nt)
+{
+	if (&nt != this)
+	{
+		this->num_rows = nt.getNumRows();
+		this->num_cols = nt.getNumCols();
+		this->clear();
+		this->table_data = nt.table_data;
+		this->has_nan = nt.hasNaN();
+		this->has_inf = nt.hasInf();
+	}
+
+	return *this;
+}
+
 
 NumericTable::~NumericTable()
 {
-	//this->table_data->clear();
 	this->clear();
-	delete this->table_data;
 	this->table_data = nullptr;
-
 }
 
 
-int NumericTable::getNumRows()
+int NumericTable::getNumRows() const
 {
 	return this->num_rows;
 }
 
 
-int NumericTable::getNumCols()
+int NumericTable::getNumCols() const
 {
 	return this->num_cols;
 }
 
 
-
 void NumericTable::setNumCols(int num_cols)
 {
-	// first update number of records
 	this->num_cols = num_cols;
+
+	// then update number of rows.
 	this->num_rows =
 	(int)(((double)this->getNumRows() * (double)this->getNumCols())/(double)num_cols);
 }
@@ -94,13 +105,13 @@ void NumericTable::setNumRows(int num_rows)
 }
 
 
-bool NumericTable::hasNaN()
+bool NumericTable::hasNaN() const
 {
 	return this->has_nan;
 }
 
 
-bool NumericTable::hasInf()
+bool NumericTable::hasInf() const
 {
 	return this->has_inf;
 }

@@ -23,15 +23,16 @@
 #define NUMERICTABLE_H
 
 //C++
-#include "math.h"
 #include <iostream>
 #include <vector>
 #include <string>
 #include <iomanip>
 #include <fstream>
-#include "stdlib.h"
 #include <cstring>
 #include <cctype>
+
+#include "stdlib.h"
+#include "math.h"
 
 typedef std::vector<double>  TableData;
 
@@ -47,18 +48,21 @@ class NumericTable
     NumericTable(int n_cols);
 
     // Copy constructor
-    //NumericTable(const NumericTable& NT);
+    NumericTable(const NumericTable& NT);
+
+    // Assignment operator
+    NumericTable& operator = (const NumericTable& nt);
 
 
     // Destructor
     ~NumericTable();
 
     // Returns number of records in the table
-    int getNumRows();
+    int getNumRows() const;
 
 
     // Returns number of columns in the table
-    int getNumCols();
+    int getNumCols() const;
 
 
     // Sets number of columns
@@ -70,10 +74,10 @@ class NumericTable
 
 
     // Returns true if file contains NaN
-    bool hasNaN();
+    bool hasNaN() const;
 
     // Returns true if file contains Inf
-    bool hasInf();
+    bool hasInf() const;
 
 
     // Appends data to table
@@ -157,7 +161,6 @@ class NumericTable
 
     private:
 		TableData* table_data;
-        //auto table_data = std::make_unique<TableData>;
 		int num_rows;
 		int num_cols;
 		bool has_inf;
