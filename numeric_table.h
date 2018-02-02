@@ -55,41 +55,41 @@ class NumericTable
 
 
     // Destructor
-    ~NumericTable();
+    virtual ~NumericTable();
 
     // Returns number of records in the table
-    int getNumRows() const;
+    int get_num_rows() const;
 
 
     // Returns number of columns in the table
-    int getNumCols() const;
+    int get_num_cols() const;
 
 
     // Sets number of columns
-    void setNumCols(int n_cols);
+    void set_num_cols(int n_cols);
 
 
     // Sets number of rows. Use with caution
-    void setNumRows(int n_rows);
+    void set_num_rows(int n_rows);
 
 
     // Returns true if file contains NaN
-    bool hasNaN() const;
+    bool has_nan() const;
 
     // Returns true if file contains Inf
-    bool hasInf() const;
+    bool has_inf() const;
 
 
     // Appends data to table
-    void appendData(double data);
+    void append_data(double data);
 
 
     // Returns the data stored at row 'row' and column 'col'
-    double getDataAt(int row, int col);
+    double get_data_at(int row, int col);
 
 
-    // Sets the value at row 'row_index' and column 'col_index'
-    void setDataAt(double data, int row_index, int col_index);
+    // Sets the value at row 'row' and column 'col'
+    void set_data_at(double data, int row, int col);
 
 
     // Scales data in table by scale_factor
@@ -108,18 +108,18 @@ class NumericTable
     // *********************** Reader functions ********************************
 
 	// Reads ANSYS BladeGen profile.curve file format
-    void readCurveFile(std::string file_name);
+    void read_ansys_curve(std::string file_name);
 
 
 	// Reads tab or space separated file
-    void readTSVFile(std::string file_name);
+    void read_tsv(std::string file_name);
 
 
     // Reads comma separated file
-    void readCSVFile(std::string file_name);
+    void read_csv(std::string file_name);
 
     // Reads file separated by 'sep'
-    void readFile(std::string file_name, std::string sep);
+    void read(std::string file_name, std::string sep);
 
     // ************************ End of reader functions ************************
 
@@ -128,43 +128,43 @@ class NumericTable
     // *************************** Writer functions ****************************
     // Writes to 'sep' seperated format, with option to specify column with.
     // Does not allow writing to space or tab separated file.
-    // Use the writeToTSVFile function to write to space/tab separated.
-    void writeToFile(std::string file_name, std::string sep, int col_width = 20);
+    // Use the write_tsv function to write to space/tab separated.
+    void write(std::string file_name, std::string sep, int col_width = 20);
 
 
     // Writes to tab or space separated file, with option to set column width
-    void writeToTSVFile(std::string file_name, int col_width = 20);
+    void write_tsv(std::string file_name, int col_width = 20);
 
 
     // Writes to comma separated file, with option to set column width
-    void writeToCSVFile(std::string file_name, int col_width = 20);
+    void write_csv(std::string file_name, int col_width = 20);
 
 
     // Writes to tecplot (.tec) file format, with option to set column width
-    void writeToTecplot(std::string file_name, int col_width = 20);
+    void write_tecplot(std::string file_name, int col_width = 20);
     // *************************************************************************
 
 
 	private:
 	// Splits inout string into vector of string base on 'split_string'.
 	// Returns a vector of strings. Cannot split string using space/tab
-	static std::vector<std::string> splitString(std::string string_to_split,
+	static std::vector<std::string> split_string(std::string string_to_split,
 												std::string split_string);
 
 
 	// Splits inout string into vector of string base on 'split_string'.
 	// Returns a vector of double. Cannot split string using space/tab
-	static std::vector<double> splitStringReturnDouble(std::string string_to_split,
+	static std::vector<double> split_string_return_double(std::string string_to_split,
 												std::string split_string);
 
 
 
     private:
-		TableData* table_data;
+		TableData* table_data = nullptr;
 		int num_rows;
 		int num_cols;
-		bool has_inf;
-		bool has_nan;
+		bool data_has_inf;
+		bool data_has_nan;
 };
 
 #endif

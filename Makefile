@@ -1,6 +1,5 @@
-# THIS IS A TEMPORAY MAKE FILE (NOT USABLE)
-
-# This is the Makefile for the progam 'test_prog'.
+#
+# This is the Makefile for NumericTable library.
 
 # define some Makefile variables for the compiler and compiler flags
 # to use Makefile variables later in the Makefile: $()
@@ -13,46 +12,61 @@ CC = g++
 #CC = win_g++
 
 
-
-CFLAGS  = -g -std=c++14
-#CFLAGS  = -g -Wall
-
-
-#perferred progam name
-PROG_NAME = test_prog
+CFLAGS  = -g -Wall -std=c++14
+#CFLAGS  = -g
 
 
-# typing 'make' will invoke the first target entry in the file
-# (in this case the default target entry)
-# you can name this target entry anything, but "default" or "all"
-# are the most commonly used names by convention
-#
-default: $(PROG_NAME)
+# source files.
+SOURCES = numeric_table.cpp
+
+
+OBJECTS = $(SOURCES:.cpp=.o)
+
+OUTPUT = libnumerictable.a
+
+# include directories
+#INCLUDES = -I. -I../include/ -I/usr/local/include
+INCLUDES = numeric_table.h
+
+
+# The file copy command (copy but do not delete original)
+COPY = cp
+
+
+# The make directory commmand
+MKDIR = mkdir
+
+# Directory for output of static library file
+# Copy to system library path or add path to system library paths
+LIBRARY_DIR = lib
+
+
+# Directory for include header file
+# Copy header files to system library path or add path to system include paths
+INCLUDE_DIR = include
 
 
 
-#define header files (in this case .h) in the current directory
-INCLUDES = *.h
+.SUFFIXES: .cpp
 
+default: $(OUTPUT)
 
-#define the source files as all .cpp files in the current directory
-SRCS = *.cpp
+.cpp.o:
+	$(CC) $(INCLUDES) $(CFLAGS) -c $<
 
-
-#define object file names from source file names
-OBJS = $(SRCS:.c=.o)
-
+$(OUTPUT): $(OBJECTS)
+	ar rcs $(OUTPUT) $(OBJECTS)
 
 
 
-# To create the executable file $(PROG_NAME) we need
-# all the object files.
-$(PROG_NAME):  $(OBJS)
-	$(CC) $(CFLAGS) -o $(PROG_NAME) $(OBJS)
+manage:
 
+	# Make new directories for libary and include headers
+	$(MKDIR) $(LIBRARY_DIR)
+	$(MKDIR) $(INCLUDE_DIR)
+
+	$(COPY) $(OUTPUT) $(LIBRARY_DIR)
+	$(COPY) $(INCLUDES) $(INCLUDE_DIR)
 
 clean:
-	$(RM) $(PROG_NAME) *.o *~
-
-depend:$(SRCS)
-	makedepend $(INCLUDES) $^
+	rm -f $(OBJECT) Makefile~
