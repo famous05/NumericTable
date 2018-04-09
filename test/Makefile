@@ -1,5 +1,3 @@
-# THIS IS A TEMPORAY MAKE FILE (NOT USABLE)
-
 # This is the Makefile for the progam 'test_prog'.
 
 # define some Makefile variables for the compiler and compiler flags
@@ -35,7 +33,7 @@ default: $(PROG_NAME)
 INCLUDES = -I../
 
 
-LIB_PATH = -L../libnumerictable.a
+LIB_PATH = -L../ -lnumerictable
 
 
 #define the source files as all .cpp files in the current directory

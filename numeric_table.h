@@ -58,42 +58,42 @@ class NumericTable
     virtual ~NumericTable();
 
     // Returns number of records in the table
-    int get_num_rows() const;
+    int getNumRows() const;
 
 
     // Returns number of columns in the table
-    int get_num_cols() const;
+    int getNumCols() const;
 
 
     // Sets number of columns
-    void set_num_cols(int n_cols);
+    void setNumCols(int n_cols);
 
 
     // Sets number of rows. Use with caution
-    void set_num_rows(int n_rows);
+    void setNumRows(int n_rows);
 
 
     // Returns true if file contains NaN
-    bool has_nan() const;
+    bool hasNaN() const;
 
     // Returns true if file contains Inf
-    bool has_inf() const;
+    bool hasInf() const;
 
 
     // Appends data to table
-    void append_data(double data);
+    void appendData(double data);
 
 
     // Returns the data stored at row 'row' and column 'col'
-    double get_data_at(int row, int col);
+    double getDataAt(int row, int col);
 
 
     // Sets the value at row 'row' and column 'col'
-    void set_data_at(double data, int row, int col);
+    void setDataAt(double data, int row, int col);
 
 
     // Scales data in table by scale_factor
-    void scale(double scale_factor);
+    void scale(double sf);
 
 
     // Prints the table to screen, with option to set column width
@@ -107,16 +107,12 @@ class NumericTable
 
     // *********************** Reader functions ********************************
 
-	// Reads ANSYS BladeGen profile.curve file format
-    void read_ansys_curve(std::string file_name);
-
-
 	// Reads tab or space separated file
-    void read_tsv(std::string file_name);
+    void readTSV(std::string file_name);
 
 
     // Reads comma separated file
-    void read_csv(std::string file_name);
+    void readCSV(std::string file_name);
 
     // Reads file separated by 'sep'
     void read(std::string file_name, std::string sep);
@@ -133,28 +129,25 @@ class NumericTable
 
 
     // Writes to tab or space separated file, with option to set column width
-    void write_tsv(std::string file_name, int col_width = 20);
+    void writeToTSV(std::string file_name, int col_width = 20);
 
 
     // Writes to comma separated file, with option to set column width
-    void write_csv(std::string file_name, int col_width = 20);
+    void writeToCSV(std::string file_name, int col_width = 20);
 
-
-    // Writes to tecplot (.tec) file format, with option to set column width
-    void write_tecplot(std::string file_name, int col_width = 20);
-    // *************************************************************************
+   // *************************************************************************
 
 
 	private:
 	// Splits inout string into vector of string base on 'split_string'.
 	// Returns a vector of strings. Cannot split string using space/tab
-	static std::vector<std::string> split_string(std::string string_to_split,
+	static std::vector<std::string> splitString(std::string string_to_split,
 												std::string split_string);
 
 
 	// Splits inout string into vector of string base on 'split_string'.
 	// Returns a vector of double. Cannot split string using space/tab
-	static std::vector<double> split_string_return_double(std::string string_to_split,
+	static std::vector<double> splitStringReturnDouble(std::string string_to_split,
 												std::string split_string);
 
 

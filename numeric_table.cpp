@@ -44,11 +44,11 @@ NumericTable::NumericTable(int n_cols)
 
 NumericTable::NumericTable(const NumericTable& nt)
 {
-	this->num_rows = nt.get_num_rows();
-	this->num_cols = nt.get_num_cols();
+	this->num_rows = nt.getNumRows();
+	this->num_cols = nt.getNumCols();
 	this->table_data = nt.table_data;
-	this->data_has_nan = nt.has_nan();
-	this->data_has_inf = nt.has_inf();
+	this->data_has_nan = nt.hasNaN();
+	this->data_has_inf = nt.hasInf();
 }
 
 
@@ -56,12 +56,12 @@ NumericTable& NumericTable::operator =(const NumericTable& nt)
 {
 	if (&nt != this)
 	{
-		this->num_rows = nt.get_num_rows();
-		this->num_cols = nt.get_num_cols();
+		this->num_rows = nt.getNumRows();
+		this->num_cols = nt.getNumCols();
 		this->clear();
 		this->table_data = nt.table_data;
-		this->data_has_nan = nt.has_nan();
-		this->data_has_inf = nt.has_inf();
+		this->data_has_nan = nt.hasNaN();
+		this->data_has_inf = nt.hasInf();
 	}
 
 	return *this;
@@ -75,29 +75,33 @@ NumericTable::~NumericTable()
 }
 
 
-int NumericTable::get_num_rows() const
+int NumericTable::getNumRows() const
 {
 	return this->num_rows;
 }
 
 
-int NumericTable::get_num_cols() const
+int NumericTable::getNumCols() const
 {
 	return this->num_cols;
 }
 
 
-void NumericTable::set_num_cols(int num_cols)
+void NumericTable::setNumCols(int num_cols)
 {
-	this->num_cols = num_cols;
+	//this->num_cols = num_cols;
 
 	// then update number of rows.
-	this->num_rows =
-	(int)(((double)this->get_num_rows() * (double)this->get_num_cols())/(double)num_cols);
+	//this->num_rows =
+	//(int)(((double)this->getNumRows() * (double)this->getNumCols())/(double)num_cols);
+
+	int n_rows = (int)((this->getNumRows() * this->getNumCols())/num_cols);
+	this->num_rows = n_rows;
+	this->num_cols = num_cols;
 }
 
 
-void NumericTable::set_num_rows(int num_rows)
+void NumericTable::setNumRows(int num_rows)
 {
 	// This function is useful only when using dynamic table to write data
 	// when you know the number of records already
@@ -105,33 +109,33 @@ void NumericTable::set_num_rows(int num_rows)
 }
 
 
-bool NumericTable::has_nan() const
+bool NumericTable::hasNaN() const
 {
 	return this->data_has_nan;
 }
 
 
-bool NumericTable::has_inf() const
+bool NumericTable::hasInf() const
 {
 	return this->data_has_inf;
 }
 
 
-void NumericTable::append_data(double data)
+void NumericTable::appendData(double data)
 {
 	this->table_data->push_back(data);
-	this->num_rows = (int)((double)this->table_data->size()/(double)this->get_num_cols());
+	this->num_rows = (int)((double)this->table_data->size()/(double)this->getNumCols());
 }
 
 
-double NumericTable::get_data_at(int row, int column)
+double NumericTable::getDataAt(int row, int column)
 {
-	int data_index = (row * this->get_num_cols()) + column;
+	int data_index = (row * this->getNumCols()) + column;
 
-	if((row > (this->get_num_rows() - 1)) || (column > (this->get_num_cols() - 1)))
+	if((row > (this->getNumRows() - 1)) || (column > (this->getNumCols() - 1)))
 	{
 		std::cout << "Requested table index is out of range in ";
-		std::cout << "NumericTable::get_data_at(int row, int column)" << std::endl;
+		std::cout << "NumericTable::getDataAt(int row, int column)" << std::endl;
 		std::cout << "Exiting program....." << std::endl;
 		exit(1);
 	}
@@ -142,9 +146,9 @@ double NumericTable::get_data_at(int row, int column)
 }
 
 
-void NumericTable::set_data_at(double data, int row, int col)
+void NumericTable::setDataAt(double data, int row, int col)
 {
-	int data_index = (row * this->get_num_cols()) + col;
+	int data_index = (row * this->getNumCols()) + col;
 	this->table_data->at(data_index) = data;
 }
 
@@ -152,11 +156,11 @@ void NumericTable::set_data_at(double data, int row, int col)
 void NumericTable::scale(double scale_factor)
 {
 	int data_index;
-	for(int row = 0; row < this->get_num_rows(); row++)
+	for(int row = 0; row < this->getNumRows(); row++)
 	{
-		for(int col = 0; col < this->get_num_cols(); col++)
+		for(int col = 0; col < this->getNumCols(); col++)
 		{
-			data_index = (row * this->get_num_cols()) + col;
+			data_index = (row * this->getNumCols()) + col;
 			this->table_data->at(data_index) =
 			this->table_data->at(data_index) * scale_factor;
 		}
@@ -166,20 +170,20 @@ void NumericTable::scale(double scale_factor)
 
 void NumericTable::print(int col_width)
 {
-	for(int row = 0; row < this->get_num_rows(); row++)
+	for(int row = 0; row < this->getNumRows(); row++)
 	{
-		for(int col = 0; col < this->get_num_cols(); col++)
+		for(int col = 0; col < this->getNumCols(); col++)
 		{
-			if(col == this->get_num_cols() - 1)
+			if(col == this->getNumCols() - 1)
 			{
 				std::cout << std::setw(col_width) << std::left;
-				std::cout << this->get_data_at(row, col) << "  " << std::endl;
+				std::cout << this->getDataAt(row, col) << "  " << std::endl;
 
 			}
 			else
 			{
 				std::cout << std::setw(col_width) << std::left;
-				std::cout << this->get_data_at(row, col) << "  ";
+				std::cout << this->getDataAt(row, col) << "  ";
 			}
 		}
 	}
@@ -192,89 +196,9 @@ void NumericTable::clear()
 }
 
 
-void NumericTable::read_ansys_curve(std::string file_name)
-{
-
-	int data_counter = 0;
-	std::string line_data, i_str;
-	bool has_comment, has_alpha_num;
-	double i_data;
-	std::vector<std::string> line_str;
 
 
-	std::ifstream reader(file_name.c_str());
-
-	if(!reader)
-	{
-		std::cout << "Error while opening file " << file_name.c_str();
-		std::cout << " in NumericTable::read_ansys_curve(std::string file_name)";
-		std::cout << std::endl;
-		exit(0);
-	}
-
-	while(!reader.eof())
-	{
-		//read in line
-		getline(reader,line_data);
-
-		//ingore lines with command markers anywhere********************
-		has_comment  = false;
-		has_alpha_num = false;
-
-		for (const auto& data : line_data)
-		{
-			if (data == '#' || data == '!') has_comment = true;
-			if (isalnum(data)) has_alpha_num = true;
-
-		}
-		//**************************************************************
-
-
-		if((has_comment == false) && (has_alpha_num == true))
-		{
-			for (int i = 0; i < line_data.length(); i++)
-			{
-				if(isalnum(line_data.at(i)) || (line_data.at(i) == '.') ||
-					(line_data.at(i) == '-'))
-				{
-					i_str.push_back(line_data.at(i));
-				}
-
-				if((i_str.size() != 0) && ((line_data.at(i) == ' ') ||
-					(i == line_data.length()-1)))
-				{
-					line_str.push_back(i_str);
-					i_str.clear();
-				}
-
-			}
-		}
-
-
-		if((has_comment == false) && (has_alpha_num == true))
-		{
-			for(int i = 0; i < 3; i++) //read data in first 3 pos of string vector
-			{
-				i_data = atof(line_str.at(i).c_str());
-				this->table_data->push_back(i_data);
-				data_counter += 1;
-
-				if(isnan(i_data)) this->data_has_nan = true;
-
-				if(isinf(i_data)) this->data_has_inf = true;
-			}
-		}
-
-		line_str.clear();
-	}
-
-	this->num_rows = (int)((double)data_counter/(double)this->num_cols);
-
-	reader.close();
-}
-
-
-void NumericTable::read_tsv(std::string file_name)
+void NumericTable::readTSV(std::string file_name)
 {
 	int data_counter = 0;
 	std::string line_data, i_str;
@@ -349,7 +273,7 @@ void NumericTable::read_tsv(std::string file_name)
 }
 
 
-void NumericTable::read_csv(std::string file_name)
+void NumericTable::readCSV(std::string file_name)
 {
 	this->read(file_name,",");
 }
@@ -374,10 +298,10 @@ void NumericTable::read(std::string file_name, std::string sep)
 	while(!reader.eof())
 	{
 		getline(reader,line_data);
-		splitted_line_data = NumericTable::split_string_return_double(line_data, sep);
+		splitted_line_data = NumericTable::splitStringReturnDouble(line_data, sep);
 		for (const auto& i_str : splitted_line_data)
 		{
-			this->append_data(i_str);
+			this->appendData(i_str);
 		}
 		splitted_line_data.clear();
 	}
@@ -389,17 +313,17 @@ void NumericTable::write(std::string file_name, std::string sep, int col_width)
 {
 	std::ofstream my_file(file_name.c_str());
 	int k = 0;
-	for(int i = 0; i < this->get_num_rows(); i++)
+	for(int i = 0; i < this->getNumRows(); i++)
 	{
-		for(int j = 0; j< this->get_num_cols(); j++)
+		for(int j = 0; j< this->getNumCols(); j++)
 		{
-			k = (i * this->get_num_cols()) + j;
-			if(j < (this->get_num_cols() - 1))
+			k = (i * this->getNumCols()) + j;
+			if(j < (this->getNumCols() - 1))
 			{
 				my_file << std::setw(col_width) << std::left << this->table_data->at(k) << sep;
 			}
 
-			if(j == (this->get_num_cols() - 1))
+			if(j == (this->getNumCols() - 1))
 			{
 				my_file << std::setw(col_width) << std::left << this->table_data->at(k) << std::endl;
 			}
@@ -409,21 +333,21 @@ void NumericTable::write(std::string file_name, std::string sep, int col_width)
     my_file.close();
 }
 
-void NumericTable::write_tsv(std::string file_name, int col_width)
+void NumericTable::writeToTSV(std::string file_name, int col_width)
 {
 	std::ofstream my_file(file_name.c_str());
 	int k = 0;
-	for(int i = 0; i < this->get_num_rows(); i++)
+	for(int i = 0; i < this->getNumRows(); i++)
 	{
-		for(int j = 0; j < this->get_num_cols(); j++)
+		for(int j = 0; j < this->getNumCols(); j++)
 		{
-			k = (i * this->get_num_cols()) + j;
-			if(j < (this->get_num_cols() - 1))
+			k = (i * this->getNumCols()) + j;
+			if(j < (this->getNumCols() - 1))
 			{
 				my_file << std::setw(col_width) << std::left << this->table_data->at(k);
 			}
 
-			if(j == (this->get_num_cols() -1))
+			if(j == (this->getNumCols() -1))
 			{
 				my_file << std::setw(col_width) << std::left << this->table_data->at(k) << std::endl;
 			}
@@ -433,37 +357,13 @@ void NumericTable::write_tsv(std::string file_name, int col_width)
     my_file.close();
 }
 
-void NumericTable::write_csv(std::string file_name, int col_width)
+void NumericTable::writeToCSV(std::string file_name, int col_width)
 {
 	this->write(file_name, ",", col_width);
 }
 
 
-void NumericTable::write_tecplot(std::string file_name, int col_width)
-{
-	std::ofstream out_file(file_name.c_str());
-
-	out_file << "title = \"sample mesh\"\n";
-    out_file << "variables = \"x\", \"y\", \"z\"\n";
-    out_file << "                        " << std::endl;
-	out_file << "zone i = " << this->get_num_rows() << ", j=";
-	out_file << this->get_num_cols() << ", f=point" << std::endl;
-	out_file << "                        " << std::endl;
-
-	for(int i = 0; i < this->get_num_rows(); i++)
-	{
-		out_file << std::setw(col_width) << std::right << this->get_data_at(i,0);
-		out_file <<	std::setw(col_width) << std::right << this->get_data_at(i,1);
-		out_file << std::setw(col_width) << std::right << this->get_data_at(i,2);
-		out_file << std::endl;
-	}
-	out_file.close();
-}
-
-
-
-
-std::vector<std::string> NumericTable::split_string(std::string string_to_split,
+std::vector<std::string> NumericTable::splitString(std::string string_to_split,
 													std::string split_string)
 {
     /*
@@ -519,11 +419,11 @@ std::vector<std::string> NumericTable::split_string(std::string string_to_split,
 }
 
 
-std::vector<double> NumericTable::split_string_return_double(std::string string_to_split,
+std::vector<double> NumericTable::splitStringReturnDouble(std::string string_to_split,
                                                     std::string split_string)
 {
    std::vector<std::string> splitted_string =
-   NumericTable::split_string(string_to_split,split_string);
+   NumericTable::splitString(string_to_split,split_string);
 
    std::vector<double> splitted_string_double;
 
