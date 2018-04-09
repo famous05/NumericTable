@@ -17,7 +17,7 @@ CFLAGS  = -g -Wall -std=c++14
 
 
 #perferred progam name
-PROG_NAME = test_prog
+PROG_NAME = nt_test
 
 
 # typing 'make' will invoke the first target entry in the file
