@@ -92,7 +92,7 @@ void NumericTable::setNumCols(int num_cols)
 	/**
 	 * First compute new num_rows based on new num_cols
 	 */
-	int n_rows = (int)((this->getNumRows() * this->getNumCols())/num_cols);
+	int n_rows = static_cast<int>((this->getNumRows() * this->getNumCols())/num_cols);
 	this->num_rows = n_rows;
 
 	/** Then update num_cols */
