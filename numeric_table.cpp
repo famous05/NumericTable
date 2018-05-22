@@ -89,22 +89,23 @@ int NumericTable::getNumCols() const
 
 void NumericTable::setNumCols(int num_cols)
 {
-	//this->num_cols = num_cols;
-
-	// then update number of rows.
-	//this->num_rows =
-	//(int)(((double)this->getNumRows() * (double)this->getNumCols())/(double)num_cols);
-
+	/**
+	 * First compute new num_rows based on new num_cols
+	 */
 	int n_rows = (int)((this->getNumRows() * this->getNumCols())/num_cols);
 	this->num_rows = n_rows;
+
+	/** Then update num_cols */
 	this->num_cols = num_cols;
 }
 
 
 void NumericTable::setNumRows(int num_rows)
 {
-	// This function is useful only when using dynamic table to write data
-	// when you know the number of records already
+	/**
+	 * This function is useful only when using numeric table to write data
+	 * when you know the number of records already
+	 */
 	this->num_rows = num_rows;
 }
 
@@ -366,7 +367,7 @@ void NumericTable::writeToCSV(std::string file_name, int col_width)
 std::vector<std::string> NumericTable::splitString(std::string string_to_split,
 													std::string split_string)
 {
-    /*
+    /**
         This function cannot separate string using space.
     */
 

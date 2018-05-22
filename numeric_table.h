@@ -41,112 +41,251 @@ class NumericTable
 
     public:
 
-    // Default constructor
+    /**
+     * Default constructor
+     */
     NumericTable();
 
-    // Constructor
+
+    /**
+     * Constructor
+     *
+     *  Parameters:
+     *      int n_cols:     number of columns to create in table
+     */
     NumericTable(int n_cols);
 
-    // Copy constructor
-    NumericTable(const NumericTable& NT);
 
-    // Assignment operator
+    /**
+     * Copy constructor.to create a new table using an existing table
+     * 
+     * Parameters:
+     *      const NumericTable& nt:     existing table 
+     */
+    NumericTable(const NumericTable& nt);
+
+
+    /**
+     * Assignment operator
+     *
+     * Parameters:
+            const NumericTable& nt:     table assigned to calling object
+     */
     NumericTable& operator = (const NumericTable& nt);
 
 
-    // Destructor
+    /**
+     * Default destructor
+     */
     virtual ~NumericTable();
 
-    // Returns number of records in the table
+
+    /**
+     * Returns: int
+     *      Number of records in the table
+     */
     int getNumRows() const;
 
 
-    // Returns number of columns in the table
+    /**
+     * Returns: int
+     *      Number of columns in the table
+     */
     int getNumCols() const;
 
 
-    // Sets number of columns
+    /**
+     * Sets number of columns
+     *
+     * Parameters:
+     *      int n_cols:     number of columns in table
+     *  
+     * NOTE: This function will reshape an existing table if set to a different
+     *       number of columns from what it was before. There is also a risk of
+     *       losing data.
+     */  
     void setNumCols(int n_cols);
 
 
-    // Sets number of rows. Use with caution
-    void setNumRows(int n_rows);
+    /**
+     * Sets number of rows
+     *
+     * Parameters:
+     *      int n_rows:     number of rows in table
+     *  
+     * NOTE: This function will hide data beyond n_rows if any. It does not 
+     *       delete the data.
+     */     
+     void setNumRows(int n_rows);
 
 
-    // Returns true if file contains NaN
+    /**
+     * Returns true if file contains NaN
+     */
     bool hasNaN() const;
 
-    // Returns true if file contains Inf
+    /**
+     * Returns true if file contains Inf
+     */
     bool hasInf() const;
 
 
-    // Appends data to table
+    /** 
+     * Appends data to table. Appends by row, then each column
+     *
+     * Parameters:
+     *      double data:    data to append to table
+     */
     void appendData(double data);
 
 
-    // Returns the data stored at row 'row' and column 'col'
+    /**
+     * Returns the data stored at row 'row' and column 'col'
+     *
+     * Parameters:
+     *      int row:    row index of data to return
+     *      int col:    column index of data to return
+     */
     double getDataAt(int row, int col);
 
 
-    // Sets the value at row 'row' and column 'col'
+    /**
+     * Sets the value at row 'row' and column 'col'
+     *
+     * Parameters:
+     *      double data:    data to set
+     *      int row:        row index to store data
+     *      int col:        column index to store data
+     */
     void setDataAt(double data, int row, int col);
 
 
-    // Scales data in table by scale_factor
+    /**
+     * Scales data in table
+     *
+     * Parameters:
+     *      double sf:      scale factor for data in table
+     */
     void scale(double sf);
 
 
-    // Prints the table to screen, with option to set column width
+    /**
+     * Prints the table to screen, with option to set column width
+     * 
+     * Parameters:
+     *      int col_width:  column width of print to screen (optional)
+     */ 
     void print(int col_width = 20);
 
 
-	// Clears data from the table
+	/**
+     * Clears all data from the table
+     */
     void clear();
 
 
 
     // *********************** Reader functions ********************************
 
-	// Reads tab or space separated file
+	/**
+     * Reads tab or space separated files
+     *
+     * Parameters:
+     *      std::string file_name:      name of file to read
+     */
     void readTSV(std::string file_name);
 
 
-    // Reads comma separated file
-    void readCSV(std::string file_name);
+	/**
+     * Reads comma separated file
+     *
+     * Parameters:
+     *      std::string file_name:      name of file to read
+     */
+     void readCSV(std::string file_name);
 
-    // Reads file separated by 'sep'
-    void read(std::string file_name, std::string sep);
+
+	/**
+     * Reads a file separted by user specified separator
+     *
+     * Parameters:
+     *      std::string file_name:      name of file to read
+     *      std::string sep:            user specified separator
+     */    void read(std::string file_name, std::string sep);
 
     // ************************ End of reader functions ************************
 
 
 
     // *************************** Writer functions ****************************
-    // Writes to 'sep' seperated format, with option to specify column with.
-    // Does not allow writing to space or tab separated file.
-    // Use the write_tsv function to write to space/tab separated.
+
+    /**
+     * Writes the content of the table to file
+     *
+     * Parameters:
+     *      std::string file_name:      name of output file
+     *      std::string sep:            file separator string
+     *      int col_width:              width of columns in output file
+     *
+     * NOTE: Does not allow writing space or table separated file. Use the 
+     *       writeTSV function for that purpose
+     */
     void write(std::string file_name, std::string sep, int col_width = 20);
 
 
-    // Writes to tab or space separated file, with option to set column width
+    
+    /**
+     * Writes to tab or space separated file
+     *
+     * Parameters:
+     *      std::string file_name:      name of output file
+     *      int col_width:              width of columns in output file (optional)
+     */
     void writeToTSV(std::string file_name, int col_width = 20);
 
 
-    // Writes to comma separated file, with option to set column width
-    void writeToCSV(std::string file_name, int col_width = 20);
+    /**
+     * Writes to comma separated file
+     *
+     * Parameters:
+     *      std::string file_name:      name of output file
+     *      int col_width:              width of columns in output file (optional)
+     */    
+     void writeToCSV(std::string file_name, int col_width = 20);
 
-   // *************************************************************************
+    // *************************************************************************
 
 
 	private:
-	// Splits inout string into vector of string base on 'split_string'.
-	// Returns a vector of strings. Cannot split string using space/tab
+
+    /**
+     * Splits input string
+     *
+     * Parameters:
+     *      std::string string_to_split:      input string to split
+     *      std::string split_string:         character to split by
+     *
+     * Returns: std::vector<std::string>
+     *      A vector of strings
+     *
+     * NOTE: Cannot split using space or tab
+     */ 
 	static std::vector<std::string> splitString(std::string string_to_split,
 												std::string split_string);
 
 
-	// Splits inout string into vector of string base on 'split_string'.
-	// Returns a vector of double. Cannot split string using space/tab
+    /**
+     * Splits input string
+     *
+     * Parameters:
+     *      std::string string_to_split:      input string to split
+     *      std::string split_string:         character to split by
+     *
+     * Returns: std::vector<double>
+     *      A vector of doubles
+     *
+     * NOTE: Cannot split using space or tab
+     */ 
 	static std::vector<double> splitStringReturnDouble(std::string string_to_split,
 												std::string split_string);
 
